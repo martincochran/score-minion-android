@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/ivHomeProfile"
+        android:layout_width="120px"
+        android:layout_height="120px" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_marginRight="120px"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tvDate"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#1E1E1E"
+            android:textSize="5pt"
+            android:text="Date"
+            android:layout_gravity="center_horizontal"
+            />
+        <TextView
+            android:id="@+id/tvHomeTeamName"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#010101"
+            android:textSize="6pt"
+            android:text="Home team name"
+            />
+        <TextView
+            android:id="@+id/tvTweetText"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:textSize="7pt"
+            android:text="Tweet"
+            />
+        <TextView
+            android:id="@+id/tvAwayTeamName"
+            android:textAppearance="?android:attr/textAppearanceListItemSmall"
+            android:layout_gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#010101"
+            android:textSize="6pt"
+            android:text="Away team name"
+            />
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/ivAwayProfile"
+        android:layout_marginLeft="-120px"
+        android:layout_width="120px"
+        android:layout_height="120px" />
+
+</LinearLayout>

@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Score Minion</string>
+
+    <string name="title_club_open">Club Open</string>
+    <string name="title_club_women">Club Women</string>
+    <string name="title_club_mixed">Club Mixed</string>
+    <string name="title_college_open">College Open</string>
+    <string name="title_college_women">College Women</string>
+    <string name="title_audl">AUDL</string>
+    <string name="title_mlu">MLU</string>
+
+    <string name="action_settings">Settings</string>
+</resources>
