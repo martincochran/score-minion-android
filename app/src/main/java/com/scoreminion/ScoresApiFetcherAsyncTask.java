@@ -22,16 +22,13 @@ import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import com.appspot.omega_bearing_780.scores.Scores;
-import com.appspot.omega_bearing_780.scores.ScoresRequest;
 import com.appspot.omega_bearing_780.scores.model.ScoresMessagesGame;
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.TimeZone;
 
 /**
  * Encapsulates logic related to querying the Scores API.
@@ -75,13 +72,9 @@ class ScoresApiFetcherAsyncTask extends AsyncTask<Void, Void, List<ScoresMessage
       String division = getDivisionFromFragmentId(fragmentId);
       String ageBracket = getAgeBracketFromFragmentId(fragmentId);
       String league = getLeagueFromFragmentId(fragmentId);
-      Calendar rightNow = Calendar.getInstance();
-      TimeZone timeZone = rightNow.getTimeZone();
       Scores.GetGames request = scoresApi.getGames()
           .setDivision(division)
           .setAgeBracket(ageBracket)
-          .setUtcOffsetMillis(Long.valueOf(
-              timeZone.getOffset(rightNow.getTimeInMillis())))
           .setLeague(league);
       Log.d(TAG, "Request: " + request);
       List<ScoresMessagesGame> apiGames = request.execute().getGames();

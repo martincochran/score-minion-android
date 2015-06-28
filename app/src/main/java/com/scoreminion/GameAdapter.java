@@ -32,12 +32,25 @@ import com.android.volley.toolbox.ImageRequest;
 import com.appspot.omega_bearing_780.scores.model.ScoresMessagesGame;
 import com.appspot.omega_bearing_780.scores.model.ScoresMessagesTeam;
 
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * View adapter for each ScoresMessagesGame in a list.
  */
 public class GameAdapter extends ArrayAdapter<ScoresMessagesGame> {
+
+  // Format string for parsing date strings like the following:
+  // "Sun Jun 28 08:17:54 2015"
+  private static final String DATE_FORMAT = "dd HH:mm:ss yyyy";
+
+  // Offset to skip the day of week and month shorthand names.
+  private static final int DATE_PARSE_POSITION_OFFSET = 8;
   // View lookup cache
   private static class ViewHolder {
     // These display the twitter images.
@@ -88,10 +101,26 @@ public class GameAdapter extends ArrayAdapter<ScoresMessagesGame> {
       viewHolder.awayName.setText(game.getTeams().get(1).getScoreReporterId());
     }
     viewHolder.tweetText.setText(game.getLastUpdateSource().getTweetText());
-    viewHolder.date.setText(game.getLastUpdateSource().getUpdateTimeUtcStr());
+    viewHolder.date.setText(convertDateString(game.getLastUpdateSource().getUpdateTimeUtcStr()));
     setTeamImages(game.getTeams(), viewHolder);
 
     return convertView;
+  }
+
+  /**
+   * Converts UTC date string to localized date string.
+   *
+   * @param utcDateStr the date string returned from the Scores API
+   * @return the localized date string
+   */
+  private String convertDateString(String utcDateStr) {
+    Calendar rightNow = Calendar.getInstance();
+    TimeZone timeZone = rightNow.getTimeZone();
+    SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT, Locale.US);
+    Date date = dateFormat.parse(utcDateStr, new ParsePosition(DATE_PARSE_POSITION_OFFSET));
+    Date adjustedDate = new Date(date.getTime() + timeZone.getOffset(rightNow.getTimeInMillis()));
+
+    return dateFormat.format(adjustedDate);
   }
 
   /**
