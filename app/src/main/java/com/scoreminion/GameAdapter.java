@@ -90,15 +90,19 @@ public class GameAdapter extends ArrayAdapter<ScoresMessagesGame> {
       viewHolder = (ViewHolder) convertView.getTag();
     }
     // Populate the views with the data from the API.
-    if (game.getTeams().get(0).getTwitterAccount() != null) {
-      viewHolder.homeName.setText(game.getTeams().get(0).getTwitterAccount().getScreenName());
-    } else {
-      viewHolder.homeName.setText(game.getTeams().get(0).getScoreReporterId());
+    if (game.getTeams().size() > 0) {
+      if (game.getTeams().get(0).getTwitterAccount() != null) {
+        viewHolder.homeName.setText(game.getTeams().get(0).getTwitterAccount().getScreenName());
+      } else {
+        viewHolder.homeName.setText(game.getTeams().get(0).getScoreReporterId());
+      }
     }
-    if (game.getTeams().get(1).getTwitterAccount() != null) {
-      viewHolder.awayName.setText(game.getTeams().get(1).getTwitterAccount().getScreenName());
-    } else {
-      viewHolder.awayName.setText(game.getTeams().get(1).getScoreReporterId());
+    if (game.getTeams().size() > 1) {
+      if (game.getTeams().get(1).getTwitterAccount() != null) {
+        viewHolder.awayName.setText(game.getTeams().get(1).getTwitterAccount().getScreenName());
+      } else {
+        viewHolder.awayName.setText(game.getTeams().get(1).getScoreReporterId());
+      }
     }
     viewHolder.tweetText.setText(game.getLastUpdateSource().getTweetText());
     viewHolder.date.setText(convertDateString(game.getLastUpdateSource().getUpdateTimeUtcStr()));
