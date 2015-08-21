@@ -10,4 +10,7 @@
     <string name="title_mlu">MLU</string>
 
     <string name="action_settings">Settings</string>
+    <string name="title_game_list">Games</string>
+    <string name="title_game_detail">Game Detail</string>
+    <string name="title_activity_view_game_sources">Game Details</string>
 </resources>

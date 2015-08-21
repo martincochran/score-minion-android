@@ -19,6 +19,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".GameListActivity"
+            android:label="@string/title_game_list" >
+        </activity>
+        <activity
+            android:name=".GameDetailActivity"
+            android:label="@string/title_game_detail"
+            android:parentActivityName=".GameListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.scoreminion.GameListActivity" />
+        </activity>
+        <activity
+            android:name=".ViewGameSourcesActivity"
+            android:label="@string/title_activity_view_game_sources"
+            android:parentActivityName=".ViewGamesActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.scoreminion.ViewGamesActivity" />
+        </activity>
     </application>
 
 </manifest>

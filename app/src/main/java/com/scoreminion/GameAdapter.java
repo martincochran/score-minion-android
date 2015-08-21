@@ -17,13 +17,17 @@
 
 package com.scoreminion;
 
+import android.content.Intent;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -44,6 +48,8 @@ import java.util.TimeZone;
  * View adapter for each ScoresMessagesGame in a list.
  */
 public class GameAdapter extends ArrayAdapter<ScoresMessagesGame> {
+
+  private static final String TAG = GameAdapter.class.toString();
 
   // Format string for parsing date strings like the following:
   // "Sun Jun 28 08:17:54 2015"
@@ -66,8 +72,29 @@ public class GameAdapter extends ArrayAdapter<ScoresMessagesGame> {
     TextView date;
   }
 
-  public GameAdapter(Context context, List<ScoresMessagesGame> games) {
+  private static class OnGameClickListener implements AdapterView.OnClickListener {
+    String gameId;
+    ListFragment parentFragment;
+
+
+    OnGameClickListener(String gameId, ListFragment parentFragment) {
+      this.gameId = gameId;
+      this.parentFragment = parentFragment;
+    }
+
+    @Override public void onClick(View parent) {
+      Intent detailIntent = new Intent(parent.getContext(), ViewGameSourcesActivity.class);
+      detailIntent.putExtra(ViewGameSourcesFragment.ARG_GAME_ID, gameId);
+      detailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+      parent.getContext().startActivity(detailIntent);
+    }
+  }
+
+  private ListFragment parentFragment;
+
+  public GameAdapter(Context context, List<ScoresMessagesGame> games, ListFragment parentFragment) {
     super(context, R.layout.list_item_game, games);
+    this.parentFragment = parentFragment;
   }
 
   @Override
@@ -86,6 +113,10 @@ public class GameAdapter extends ArrayAdapter<ScoresMessagesGame> {
       viewHolder.homeProfileImage = (ImageView) convertView.findViewById(R.id.ivHomeProfile);
       viewHolder.awayProfileImage = (ImageView) convertView.findViewById(R.id.ivAwayProfile);
       convertView.setTag(viewHolder);
+      if (game != null) {
+        convertView.setOnClickListener(new OnGameClickListener(game.getIdStr(),
+            this.parentFragment));
+      }
     } else {
       viewHolder = (ViewHolder) convertView.getTag();
     }

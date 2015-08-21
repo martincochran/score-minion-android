@@ -23,45 +23,43 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.appspot.omega_bearing_780.scores.model.ScoresMessagesGame;
+import com.appspot.omega_bearing_780.scores.model.ScoresMessagesGameSource;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Logic for displaying the view of a given division.
+ * Created by martincochran on 8/18/15.
  */
-public class ViewDivisionFragment extends ListFragment {
+public class ViewGameSourcesFragment extends ListFragment {
 
-  private static final String TAG = ViewDivisionFragment.class.toString();
+  private static final String TAG = ViewGameSourcesFragment.class.toString();
 
   /**
    * The fragment argument representing the section number for this
    * fragment that will be stored in the Bundle.
    */
-  static final String ARG_SECTION_NUMBER = "section_number";
+  static final String ARG_GAME_ID = "game_id_str";
 
-  private int mCurCheckPosition;
-  private List<ScoresMessagesGame> games;
+  private List<ScoresMessagesGameSource> gameSources;
 
   /**
    * Returns a new instance of this fragment for the given section
    * number.
    */
-  public static ViewDivisionFragment newInstance(int sectionNumber) {
-    ViewDivisionFragment fragment = new ViewDivisionFragment();
+  public static ViewGameSourcesFragment newInstance(String gameId) {
+    ViewGameSourcesFragment fragment = new ViewGameSourcesFragment();
     Bundle args = new Bundle();
-    args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+    args.putString(ARG_GAME_ID, gameId);
     fragment.setArguments(args);
-    fragment.games = new ArrayList<>();
-    fragment.mCurCheckPosition = 0;
+    fragment.gameSources = new ArrayList<>();
     return fragment;
   }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-    View rootView = inflater.inflate(R.layout.fragment_view_games, container, false);
+    View rootView = inflater.inflate(R.layout.fragment_view_game_sources2, container, false);
     return rootView;
   }
 
@@ -73,20 +71,13 @@ public class ViewDivisionFragment extends ListFragment {
   @Override
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
-    if (games == null) {
-      games = new ArrayList<>();
-    }
-    games.clear();
+    gameSources = new ArrayList<>();
+    gameSources.clear();
 
     // Fire off the query to fetch the games data.
-    new ScoresApiFetcherAsyncTask(this).execute();
+    new GameSourcesApiFetcherAsyncTask(this).execute();
 
-    setListAdapter(new GameAdapter(getActivity().getApplicationContext(), games, this));
-
-    if (savedInstanceState != null) {
-      // Restore last state for checked position.
-      mCurCheckPosition = savedInstanceState.getInt("curChoice", 0);
-    }
+    setListAdapter(new GameSourcesAdapter(getActivity().getApplicationContext(), gameSources));
   }
 
   /**
@@ -94,7 +85,7 @@ public class ViewDivisionFragment extends ListFragment {
    *
    * @return the games list
    */
-  List<ScoresMessagesGame> getGames() {
-    return games;
+  List<ScoresMessagesGameSource> getGameSources() {
+    return gameSources;
   }
 }
